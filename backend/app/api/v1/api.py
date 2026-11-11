@@ -13,6 +13,7 @@ from app.api.v1.routes import support
 from app.api.v1.routes import uploads
 from app.api.v1.routes import payments
 from app.api.v1.routes import recommendations
+from app.api.v1.routes import settings
 
 
 
@@ -32,3 +33,4 @@ api_router.include_router(questions.router)
 api_router.include_router(support.router)
 api_router.include_router(payments.router)
 api_router.include_router(recommendations.router)
+api_router.include_router(settings.router)

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "./api";
+import { useWebsiteSettings } from "./WebsiteSettingsContext";
 
 
 
@@ -92,6 +93,11 @@ const supportFaqs = [
 
 
 export default function SupportPage() {
+  const { siteSettings } = useWebsiteSettings();
+
+
+
+
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -152,11 +158,32 @@ export default function SupportPage() {
 
 
 
+
       <header className="relative border-b border-white/10 bg-white/5 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <Link to="/" className="text-2xl font-black">
-            NexoraMart
+          <Link
+            to="/"
+            className="flex items-center gap-3"
+          >
+            {siteSettings.logo_url ? (
+              <img
+                src={siteSettings.logo_url}
+                alt={siteSettings.site_name}
+                className="h-11 w-11 rounded-xl object-cover"
+              />
+            ) : (
+              <div className="flex size-11 items-center justify-center rounded-xl bg-gradient-to-br from-fuchsia-600 to-blue-600 text-lg font-black text-white">
+                N
+              </div>
+            )}
+
+
+            <span className="text-2xl font-black">
+              {siteSettings.site_name ||
+                "NexoraMart"}
+            </span>
           </Link>
+
 
 
           <Link
@@ -170,6 +197,7 @@ export default function SupportPage() {
 
 
 
+
       <main className="relative mx-auto max-w-7xl px-6 py-16">
         <div className="support-fade-up text-center">
           <span className="inline-block animate-pulse rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-bold uppercase tracking-[0.3em] text-cyan-300">
@@ -177,9 +205,11 @@ export default function SupportPage() {
           </span>
 
 
+
           <h1 className="support-text-glow mt-6 bg-gradient-to-r from-cyan-300 via-fuchsia-400 to-purple-400 bg-clip-text text-5xl font-black text-transparent md:text-6xl">
             Customer Support
           </h1>
+
 
 
           <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-300">
@@ -188,6 +218,7 @@ export default function SupportPage() {
             help you.
           </p>
         </div>
+
 
 
 
@@ -209,14 +240,17 @@ export default function SupportPage() {
                 </div>
 
 
+
                 <h2 className="mt-6 text-2xl font-black text-white">
                   {card.title}
                 </h2>
 
 
+
                 <p className="mt-3 text-white/85">
                   {card.description}
                 </p>
+
 
 
                 {card.buttonLink.startsWith("/") ? (
@@ -250,10 +284,12 @@ export default function SupportPage() {
           </h2>
 
 
+
           <p className="mt-3 text-slate-300">
             Send us a message and our support team will respond as soon
             as possible.
           </p>
+
 
 
           <form
@@ -264,7 +300,9 @@ export default function SupportPage() {
               <input
                 value={customerName}
                 onChange={(event) =>
-                  setCustomerName(event.target.value)
+                  setCustomerName(
+                    event.target.value
+                  )
                 }
                 placeholder="Your name"
                 className="w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none"
@@ -276,13 +314,16 @@ export default function SupportPage() {
                 type="email"
                 value={customerEmail}
                 onChange={(event) =>
-                  setCustomerEmail(event.target.value)
+                  setCustomerEmail(
+                    event.target.value
+                  )
                 }
                 placeholder="Your email address"
                 className="w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none"
                 required
               />
             </div>
+
 
 
             <input
@@ -344,40 +385,46 @@ export default function SupportPage() {
             </h2>
 
 
+
             <p className="mt-3 text-slate-300">
               Quick answers to the most common customer questions.
             </p>
           </div>
 
 
+
           <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {supportFaqs.map((faq, index) => (
-              <div
-                key={faq.question}
-                className="support-fade-up group rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl transition duration-500 hover:-translate-y-2 hover:border-fuchsia-400/40 hover:bg-white/10 hover:shadow-2xl hover:shadow-fuchsia-500/20"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                }}
-              >
-                <div className="flex items-start gap-4">
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-fuchsia-500 to-blue-600 font-black text-white">
-                    ?
-                  </span>
+            {supportFaqs.map(
+              (faq, index) => (
+                <div
+                  key={faq.question}
+                  className="support-fade-up group rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl transition duration-500 hover:-translate-y-2 hover:border-fuchsia-400/40 hover:bg-white/10 hover:shadow-2xl hover:shadow-fuchsia-500/20"
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                  }}
+                >
+                  <div className="flex items-start gap-4">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-fuchsia-500 to-blue-600 font-black text-white">
+                      ?
+                    </span>
 
 
-                  <div>
-                    <h3 className="text-lg font-bold text-white">
-                      {faq.question}
-                    </h3>
+
+                    <div>
+                      <h3 className="text-lg font-bold text-white">
+                        {faq.question}
+                      </h3>
 
 
-                    <p className="mt-2 text-slate-300">
-                      {faq.answer}
-                    </p>
+
+                      <p className="mt-2 text-slate-300">
+                        {faq.answer}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </section>
 
@@ -390,10 +437,14 @@ export default function SupportPage() {
           </h2>
 
 
+
           <p className="mx-auto mt-3 max-w-xl text-white/90">
-            Our support team is ready to assist you with your
-            NexoraMart order.
+            Our support team is ready to assist you with your{" "}
+            {siteSettings.site_name ||
+              "NexoraMart"}{" "}
+            order.
           </p>
+
 
 
           <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
@@ -403,6 +454,7 @@ export default function SupportPage() {
             >
               Track Order
             </Link>
+
 
 
             <a

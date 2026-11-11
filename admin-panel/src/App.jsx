@@ -29,6 +29,7 @@ import WishlistPage from "./WishlistPage";
 import ReviewsPage from "./ReviewsPage";
 import QuestionsPage from "./QuestionsPage";
 import SupportMessagesPage from "./SupportMessagesPage";
+import WebsiteSettingsPage from "./WebsiteSettingsPage";
 
 
 
@@ -38,10 +39,12 @@ class ErrorBoundary extends Component {
     super(props);
 
 
+
     this.state = {
       error: null,
     };
   }
+
 
 
   static getDerivedStateFromError(error) {
@@ -51,9 +54,11 @@ class ErrorBoundary extends Component {
   }
 
 
+
   componentDidCatch(error, errorInfo) {
     console.error("App error:", error, errorInfo);
   }
+
 
 
   render() {
@@ -66,14 +71,17 @@ class ErrorBoundary extends Component {
             </h1>
 
 
+
             <p className="mt-4 text-slate-300">
               The page could not load because of a JavaScript error.
             </p>
 
 
+
             <pre className="mt-6 overflow-auto rounded-2xl bg-slate-900 p-5 text-sm text-red-300">
               {String(this.state.error)}
             </pre>
+
 
 
             <button
@@ -89,9 +97,11 @@ class ErrorBoundary extends Component {
     }
 
 
+
     return this.props.children;
   }
 }
+
 
 
 
@@ -268,8 +278,20 @@ export default function App() {
 
 
                 <Route
+                  path="/admin/settings"
+                  element={
+                    <ProtectedRoute>
+                      <WebsiteSettingsPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+
+                <Route
                   path="/admin"
-                  element={<Navigate to="/products" replace />}
+                  element={
+                    <Navigate to="/products" replace />
+                  }
                 />
 
 

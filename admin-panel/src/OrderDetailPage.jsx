@@ -43,6 +43,10 @@ export default function OrderDetailPage() {
 
 
 
+  const [statusHistory, setStatusHistory] = useState([]);
+
+
+
 
   useEffect(() => {
     if (!orderId) {
@@ -73,6 +77,10 @@ export default function OrderDetailPage() {
 
         setOrder(response.data);
         setStatusValue(response.data.status);
+
+
+
+        await loadStatusHistory();
       } catch (loadError) {
         console.error(loadError);
 
@@ -98,6 +106,24 @@ export default function OrderDetailPage() {
       isActive = false;
     };
   }, [orderId]);
+
+
+
+
+  async function loadStatusHistory() {
+    try {
+      const response = await api.get(
+        `/orders/${orderId}/status-history`
+      );
+
+
+
+      setStatusHistory(response.data || []);
+    } catch (historyError) {
+      console.error(historyError);
+      setStatusHistory([]);
+    }
+  }
 
 
 
@@ -129,6 +155,10 @@ export default function OrderDetailPage() {
       setStatusSuccess(
         `Order status updated to ${response.data.status.toUpperCase()}`
       );
+
+
+
+      await loadStatusHistory();
     } catch (updateError) {
       console.error(updateError);
 
@@ -662,6 +692,78 @@ export default function OrderDetailPage() {
                 </div>
               </div>
             </div>
+          </div>
+
+
+
+
+          <div className="border-t border-slate-200 bg-white p-8">
+            <h2 className="text-lg font-black text-slate-900">
+              Order Status History
+            </h2>
+
+
+
+            <p className="mt-1 text-sm text-slate-500">
+              Every order status change is recorded here.
+            </p>
+
+
+
+            {statusHistory.length === 0 ? (
+              <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center">
+                <p className="font-bold text-slate-700">
+                  No status history yet
+                </p>
+
+
+                <p className="mt-2 text-sm text-slate-500">
+                  Change the order status to create the first history
+                  record.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-6 space-y-4">
+                {statusHistory.map((history, index) => (
+                  <div
+                    key={history.id}
+                    className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+                  >
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-bold uppercase text-white">
+                          {index + 1}
+                        </span>
+
+
+                        <p className="font-bold text-slate-800">
+                          {history.previous_status || "Created"}{" "}
+                          → {history.new_status}
+                        </p>
+                      </div>
+
+
+                      <p className="text-sm text-slate-500">
+                        {new Date(
+                          history.created_at
+                        ).toLocaleString("en-PK", {
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                        })}
+                      </p>
+                    </div>
+
+
+                    <p className="mt-3 text-sm text-slate-600">
+                      <span className="font-bold text-slate-800">
+                        Changed by:
+                      </span>{" "}
+                      {history.changed_by || "System"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
 

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import api from "./api";
 import { useCart } from "./CartContext";
 import { useWishlist } from "./WishlistContext";
+import { useWebsiteSettings } from "./WebsiteSettingsContext";
 
 
 
@@ -23,6 +24,7 @@ export default function StorefrontPage() {
   const [addedProductId, setAddedProductId] = useState(null);
   const { cartCount, addToCart } = useCart();
   const { wishlistCount } = useWishlist();
+  const { siteSettings } = useWebsiteSettings();
 
 
 
@@ -36,11 +38,15 @@ export default function StorefrontPage() {
   });
 
 
+
+
   const [timeLeft, setTimeLeft] = useState({
     hours: "00",
     minutes: "00",
     seconds: "00",
   });
+
+
 
 
   const [purchaseNotification, setPurchaseNotification] =
@@ -52,12 +58,20 @@ export default function StorefrontPage() {
   useEffect(() => {
     async function loadCategories() {
       try {
-        const categoriesResponse = await api.get("/categories/");
-        setCategories(categoriesResponse.data || []);
+        const categoriesResponse = await api.get(
+          "/categories/"
+        );
+
+
+
+        setCategories(
+          categoriesResponse.data || []
+        );
       } catch (loadError) {
         console.error(loadError);
       }
     }
+
 
 
     loadCategories();
@@ -72,6 +86,7 @@ export default function StorefrontPage() {
       setError("");
 
 
+
       try {
         const params = {
           page: currentPage,
@@ -81,14 +96,18 @@ export default function StorefrontPage() {
         };
 
 
+
         if (search) {
           params.search = search;
         }
 
 
+
         if (selectedCategoryId) {
-          params.category_id = selectedCategoryId;
+          params.category_id =
+            selectedCategoryId;
         }
+
 
 
         if (minPrice !== "") {
@@ -96,9 +115,11 @@ export default function StorefrontPage() {
         }
 
 
+
         if (maxPrice !== "") {
           params.max_price = Number(maxPrice);
         }
+
 
 
         const countResponse = await api.get(
@@ -107,7 +128,11 @@ export default function StorefrontPage() {
         );
 
 
-        const totalProducts = Number(countResponse.data || 0);
+
+        const totalProducts = Number(
+          countResponse.data || 0
+        );
+
 
 
         const calculatedTotalPages = Math.max(
@@ -116,12 +141,18 @@ export default function StorefrontPage() {
         );
 
 
+
         setTotalPages(calculatedTotalPages);
 
 
-        const response = await api.get("/catalog/products", {
-          params,
-        });
+
+        const response = await api.get(
+          "/catalog/products",
+          {
+            params,
+          }
+        );
+
 
 
         setProducts(response.data || []);
@@ -132,6 +163,7 @@ export default function StorefrontPage() {
         setLoading(false);
       }
     }
+
 
 
     loadProducts();
@@ -164,7 +196,9 @@ export default function StorefrontPage() {
 
   useEffect(() => {
     function updateCountdown() {
-      const difference = flashSaleEndTime - Date.now();
+      const difference =
+        flashSaleEndTime - Date.now();
+
 
 
       if (difference <= 0) {
@@ -177,28 +211,54 @@ export default function StorefrontPage() {
       }
 
 
-      const hours = Math.floor(difference / (1000 * 60 * 60));
-      const minutes = Math.floor(
-        (difference % (1000 * 60 * 60)) / (1000 * 60)
+
+      const hours = Math.floor(
+        difference / (1000 * 60 * 60)
       );
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+
+
+      const minutes = Math.floor(
+        (difference % (1000 * 60 * 60)) /
+          (1000 * 60)
+      );
+
+
+
+      const seconds = Math.floor(
+        (difference % (1000 * 60)) / 1000
+      );
+
 
 
       setTimeLeft({
         hours: String(hours).padStart(2, "0"),
-        minutes: String(minutes).padStart(2, "0"),
-        seconds: String(seconds).padStart(2, "0"),
+        minutes: String(minutes).padStart(
+          2,
+          "0"
+        ),
+        seconds: String(seconds).padStart(
+          2,
+          "0"
+        ),
       });
     }
+
 
 
     updateCountdown();
 
 
-    const countdownInterval = setInterval(updateCountdown, 1000);
+
+    const countdownInterval = setInterval(
+      updateCountdown,
+      1000
+    );
 
 
-    return () => clearInterval(countdownInterval);
+
+    return () =>
+      clearInterval(countdownInterval);
   }, [flashSaleEndTime]);
 
 
@@ -229,18 +289,27 @@ export default function StorefrontPage() {
     ];
 
 
+
     let notificationIndex = 0;
 
 
+
     function showNotification() {
-      const notification = purchaseNotifications[notificationIndex];
+      const notification =
+        purchaseNotifications[
+          notificationIndex
+        ];
+
 
 
       setPurchaseNotification(notification);
 
 
+
       notificationIndex =
-        (notificationIndex + 1) % purchaseNotifications.length;
+        (notificationIndex + 1) %
+        purchaseNotifications.length;
+
 
 
       setTimeout(() => {
@@ -249,13 +318,20 @@ export default function StorefrontPage() {
     }
 
 
+
     showNotification();
 
 
-    const notificationInterval = setInterval(showNotification, 15000);
+
+    const notificationInterval = setInterval(
+      showNotification,
+      15000
+    );
 
 
-    return () => clearInterval(notificationInterval);
+
+    return () =>
+      clearInterval(notificationInterval);
   }, []);
 
 
@@ -267,9 +343,11 @@ export default function StorefrontPage() {
     }
 
 
+
     const timeout = setTimeout(() => {
       setAddedProductId(null);
     }, 2000);
+
 
 
     return () => clearTimeout(timeout);
@@ -288,7 +366,9 @@ export default function StorefrontPage() {
     }
 
 
+
     setCurrentPage(pageNumber);
+
 
 
     window.scrollTo({
@@ -301,9 +381,14 @@ export default function StorefrontPage() {
 
 
   function handleAddToCart(product) {
-    if (!product || !product.stock || product.stock <= 0) {
+    if (
+      !product ||
+      !product.stock ||
+      product.stock <= 0
+    ) {
       return;
     }
+
 
 
     addToCart(product);
@@ -314,14 +399,19 @@ export default function StorefrontPage() {
 
 
   function getProductImage(product) {
-    if (product.images && product.images.length > 0) {
+    if (
+      product.images &&
+      product.images.length > 0
+    ) {
       return product.images[0];
     }
+
 
 
     if (product.image_url) {
       return product.image_url;
     }
+
 
 
     return null;
@@ -338,11 +428,32 @@ export default function StorefrontPage() {
 
 
 
+
       <header className="relative border-b border-white/10 bg-white/5 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <Link to="/" className="text-2xl font-black">
-            NexoraMart
+          <Link
+            to="/"
+            className="flex items-center gap-3"
+          >
+            {siteSettings.logo_url ? (
+              <img
+                src={siteSettings.logo_url}
+                alt={siteSettings.site_name}
+                className="h-11 w-11 rounded-xl object-cover"
+              />
+            ) : (
+              <div className="flex size-11 items-center justify-center rounded-xl bg-gradient-to-br from-fuchsia-600 to-blue-600 text-lg font-black text-white">
+                N
+              </div>
+            )}
+
+
+            <span className="text-2xl font-black">
+              {siteSettings.site_name ||
+                "NexoraMart"}
+            </span>
           </Link>
+
 
 
           <div className="flex items-center gap-3">
@@ -354,12 +465,14 @@ export default function StorefrontPage() {
             </Link>
 
 
+
             <Link
               to="/support"
               className="rounded-xl border border-white/10 bg-white/5 px-5 py-2 font-semibold text-white transition duration-300 hover:scale-105 hover:border-cyan-400/40"
             >
               Support
             </Link>
+
 
 
             <Link
@@ -370,6 +483,7 @@ export default function StorefrontPage() {
             </Link>
 
 
+
             <Link
               to="/track-order"
               className="rounded-xl border border-white/10 bg-white/5 px-5 py-2 font-semibold text-white transition duration-300 hover:scale-105 hover:border-cyan-400/40"
@@ -378,11 +492,13 @@ export default function StorefrontPage() {
             </Link>
 
 
+
             <Link
               to="/wishlist"
               className="relative rounded-xl border border-white/10 bg-white/5 px-5 py-2 font-semibold text-white transition duration-300 hover:scale-105 hover:border-fuchsia-400/40"
             >
               Wishlist
+
 
 
               {wishlistCount > 0 && (
@@ -393,11 +509,13 @@ export default function StorefrontPage() {
             </Link>
 
 
+
             <Link
               to="/cart"
               className="relative rounded-xl bg-blue-600 px-5 py-2 font-semibold text-white transition duration-300 hover:scale-105"
             >
               Cart
+
 
 
               {cartCount > 0 && (
@@ -406,6 +524,7 @@ export default function StorefrontPage() {
                 </span>
               )}
             </Link>
+
 
 
             <Link
@@ -430,15 +549,18 @@ export default function StorefrontPage() {
               </span>
 
 
+
               <h2 className="mt-4 text-3xl font-black text-white md:text-4xl">
                 Limited-Time Offers
               </h2>
+
 
 
               <p className="mt-2 text-slate-300">
                 Hurry! These deals are available for a short time only.
               </p>
             </div>
+
 
 
             <div className="flex items-center gap-3">
@@ -448,10 +570,12 @@ export default function StorefrontPage() {
                 </p>
 
 
+
                 <p className="text-xs uppercase tracking-widest text-slate-400">
                   Hours
                 </p>
               </div>
+
 
 
               <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-center">
@@ -460,16 +584,19 @@ export default function StorefrontPage() {
                 </p>
 
 
+
                 <p className="text-xs uppercase tracking-widest text-slate-400">
                   Minutes
                 </p>
               </div>
 
 
+
               <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-center">
                 <p className="text-2xl font-black text-yellow-300">
                   {timeLeft.seconds}
                 </p>
+
 
 
                 <p className="text-xs uppercase tracking-widest text-slate-400">
@@ -485,8 +612,11 @@ export default function StorefrontPage() {
 
         <div className="store-fade-up mb-14 text-center">
           <span className="inline-block animate-pulse rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-bold uppercase tracking-[0.3em] text-cyan-300">
-            Welcome to NexoraMart
+            Welcome to{" "}
+            {siteSettings.site_name ||
+              "NexoraMart"}
           </span>
+
 
 
           <h1 className="store-text-glow mt-6 bg-gradient-to-r from-cyan-300 via-fuchsia-400 to-purple-400 bg-clip-text text-5xl font-black text-transparent md:text-6xl">
@@ -494,10 +624,12 @@ export default function StorefrontPage() {
           </h1>
 
 
+
           <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-300">
             Discover high-quality products with fast delivery, secure
             ordering, and a smooth shopping experience.
           </p>
+
 
 
           <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
@@ -507,6 +639,7 @@ export default function StorefrontPage() {
             >
               Learn About Us
             </Link>
+
 
 
             <Link
@@ -525,7 +658,9 @@ export default function StorefrontPage() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <input
               value={search}
-              onChange={(event) => setSearch(event.target.value)}
+              onChange={(event) =>
+                setSearch(event.target.value)
+              }
               placeholder="Search products..."
               className="w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none md:col-span-2"
             />
@@ -534,20 +669,30 @@ export default function StorefrontPage() {
             <select
               value={selectedCategoryId}
               onChange={(event) =>
-                setSelectedCategoryId(event.target.value)
+                setSelectedCategoryId(
+                  event.target.value
+                )
               }
               className="w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-white focus:border-cyan-400 focus:outline-none"
             >
-              <option value="">All Categories</option>
+              <option value="">
+                All Categories
+              </option>
 
 
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
+              {categories.map(
+                (category) => (
+                  <option
+                    key={category.id}
+                    value={category.id}
+                  >
+                    {category.name}
+                  </option>
+                )
+              )}
             </select>
           </div>
+
 
 
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -555,7 +700,9 @@ export default function StorefrontPage() {
               type="number"
               min="0"
               value={minPrice}
-              onChange={(event) => setMinPrice(event.target.value)}
+              onChange={(event) =>
+                setMinPrice(event.target.value)
+              }
               placeholder="Min Price"
               className="w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none"
             />
@@ -565,7 +712,9 @@ export default function StorefrontPage() {
               type="number"
               min="0"
               value={maxPrice}
-              onChange={(event) => setMaxPrice(event.target.value)}
+              onChange={(event) =>
+                setMaxPrice(event.target.value)
+              }
               placeholder="Max Price"
               className="w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none"
             />
@@ -573,17 +722,31 @@ export default function StorefrontPage() {
 
             <select
               value={sortBy}
-              onChange={(event) => setSortBy(event.target.value)}
+              onChange={(event) =>
+                setSortBy(event.target.value)
+              }
               className="w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-white focus:border-cyan-400 focus:outline-none"
             >
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
+              <option value="newest">
+                Newest First
+              </option>
+
+
+              <option value="oldest">
+                Oldest First
+              </option>
+
+
               <option value="price_low_to_high">
                 Price: Low to High
               </option>
+
+
               <option value="price_high_to_low">
                 Price: High to Low
               </option>
+
+
               <option value="rating_high_to_low">
                 Rating: High to Low
               </option>
@@ -595,7 +758,9 @@ export default function StorefrontPage() {
                 type="checkbox"
                 checked={inStockOnly}
                 onChange={(event) =>
-                  setInStockOnly(event.target.checked)
+                  setInStockOnly(
+                    event.target.checked
+                  )
                 }
                 className="size-5 accent-cyan-400"
               />
@@ -618,6 +783,7 @@ export default function StorefrontPage() {
         )}
 
 
+
         {error && (
           <div className="store-fade-up mb-8 rounded-3xl border border-red-500/30 bg-red-500/10 p-5 text-center text-red-300">
             {error}
@@ -625,133 +791,181 @@ export default function StorefrontPage() {
         )}
 
 
-        {!loading && products.length === 0 && !error && (
-          <div className="store-fade-up rounded-3xl border border-white/10 bg-white/5 p-12 text-center backdrop-blur-xl">
-            <div className="text-5xl">🛍️</div>
+
+        {!loading &&
+          products.length === 0 &&
+          !error && (
+            <div className="store-fade-up rounded-3xl border border-white/10 bg-white/5 p-12 text-center backdrop-blur-xl">
+              <div className="text-5xl">🛍️</div>
 
 
-            <p className="mt-4 text-xl font-bold text-slate-300">
-              No products found
-            </p>
+
+              <p className="mt-4 text-xl font-bold text-slate-300">
+                No products found
+              </p>
 
 
-            <p className="mt-2 text-slate-500">
-              Try a different search term, price range, or category.
-            </p>
-          </div>
-        )}
+
+              <p className="mt-2 text-slate-500">
+                Try a different search term, price range, or category.
+              </p>
+            </div>
+          )}
+
 
 
         <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product, index) => {
-            const productImage = getProductImage(product);
-            const rating = Number(product.average_rating || 0);
-            const reviewCount = Number(product.review_count || 0);
+          {products.map(
+            (product, index) => {
+              const productImage =
+                getProductImage(product);
 
 
-            return (
-              <div
-                key={product.id}
-                className="store-fade-up group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl transition duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:border-fuchsia-400/40 hover:shadow-2xl hover:shadow-fuchsia-500/25"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                }}
-              >
-                <div className="pointer-events-none absolute -right-10 -top-10 size-32 rounded-full bg-fuchsia-500/20 blur-2xl transition duration-500 group-hover:scale-150" />
+              const rating = Number(
+                product.average_rating || 0
+              );
 
 
-                <Link to={`/product/${product.slug}`}>
-                  {productImage ? (
-                    <img
-                      src={productImage}
-                      alt={product.name}
-                      className="h-56 w-full object-cover transition duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-56 items-center justify-center bg-slate-800 text-slate-500">
-                      No image
-                    </div>
-                  )}
-                </Link>
+
+              const reviewCount = Number(
+                product.review_count || 0
+              );
 
 
-                <div className="relative p-6">
-                  <Link to={`/product/${product.slug}`}>
-                    <h2 className="text-lg font-bold text-white">
-                      {product.name}
-                    </h2>
+
+              return (
+                <div
+                  key={product.id}
+                  className="store-fade-up group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl transition duration-500 hover:-translate-y-3 hover:scale-[1.02] hover:border-fuchsia-400/40 hover:shadow-2xl hover:shadow-fuchsia-500/25"
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                  }}
+                >
+                  <div className="pointer-events-none absolute -right-10 -top-10 size-32 rounded-full bg-fuchsia-500/20 blur-2xl transition duration-500 group-hover:scale-150" />
+
+
+                  <Link
+                    to={`/product/${product.slug}`}
+                  >
+                    {productImage ? (
+                      <img
+                        src={productImage}
+                        alt={product.name}
+                        className="h-56 w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-56 items-center justify-center bg-slate-800 text-slate-500">
+                        No image
+                      </div>
+                    )}
                   </Link>
 
 
-                  <div className="mt-3 flex items-center gap-2">
-                    <div className="flex items-center">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <span
-                          key={star}
-                          className={
-                            star <= Math.round(rating)
-                              ? "text-yellow-400"
-                              : "text-slate-600"
-                          }
-                        >
-                          ★
-                        </span>
-                      ))}
+
+                  <div className="relative p-6">
+                    <Link
+                      to={`/product/${product.slug}`}
+                    >
+                      <h2 className="text-lg font-bold text-white">
+                        {product.name}
+                      </h2>
+                    </Link>
+
+
+
+                    <div className="mt-3 flex items-center gap-2">
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map(
+                          (star) => (
+                            <span
+                              key={star}
+                              className={
+                                star <=
+                                Math.round(rating)
+                                  ? "text-yellow-400"
+                                  : "text-slate-600"
+                              }
+                            >
+                              ★
+                            </span>
+                          )
+                        )}
+                      </div>
+
+
+
+                      <span className="text-xs font-semibold text-slate-400">
+                        {rating.toFixed(1)}
+                      </span>
+
+
+
+                      <span className="text-xs text-slate-500">
+                        ({reviewCount} reviews)
+                      </span>
                     </div>
 
 
-                    <span className="text-xs font-semibold text-slate-400">
-                      {rating.toFixed(1)}
-                    </span>
+
+                    {product.stock > 0 &&
+                      product.stock <= 5 && (
+                        <span className="mt-3 inline-block animate-pulse rounded-full bg-gradient-to-r from-red-600 to-orange-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                          Only {product.stock} left
+                        </span>
+                      )}
 
 
-                    <span className="text-xs text-slate-500">
-                      ({reviewCount} reviews)
-                    </span>
-                  </div>
+
+                    <p className="mt-2 line-clamp-2 text-sm text-slate-400">
+                      {product.description ||
+                        "No description"}
+                    </p>
 
 
-                  {product.stock > 0 && product.stock <= 5 && (
-                    <span className="mt-3 inline-block animate-pulse rounded-full bg-gradient-to-r from-red-600 to-orange-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
-                      Only {product.stock} left
-                    </span>
-                  )}
+
+                    <p className="mt-5 bg-gradient-to-r from-cyan-300 to-fuchsia-400 bg-clip-text text-2xl font-black text-transparent">
+                      Rs{" "}
+                      {Number(
+                        product.price || 0
+                      ).toLocaleString()}
+                    </p>
 
 
-                  <p className="mt-2 line-clamp-2 text-sm text-slate-400">
-                    {product.description || "No description"}
-                  </p>
+
+                    <div className="mt-5 flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleAddToCart(
+                            product
+                          )
+                        }
+                        disabled={
+                          !product.stock ||
+                          product.stock <= 0
+                        }
+                        className="flex-1 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 px-4 py-3 text-sm font-bold text-white transition duration-300 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        {addedProductId ===
+                        product.id
+                          ? "Added ✓"
+                          : "Add to Cart"}
+                      </button>
 
 
-                  <p className="mt-5 bg-gradient-to-r from-cyan-300 to-fuchsia-400 bg-clip-text text-2xl font-black text-transparent">
-                    Rs {Number(product.price || 0).toLocaleString()}
-                  </p>
 
-
-                  <div className="mt-5 flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => handleAddToCart(product)}
-                      disabled={!product.stock || product.stock <= 0}
-                      className="flex-1 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 px-4 py-3 text-sm font-bold text-white transition duration-300 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40"
-                    >
-                      {addedProductId === product.id
-                        ? "Added ✓"
-                        : "Add to Cart"}
-                    </button>
-
-
-                    <Link
-                      to={`/product/${product.slug}`}
-                      className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white transition duration-300 hover:scale-105 hover:border-fuchsia-400/40"
-                    >
-                      View
-                    </Link>
+                      <Link
+                        to={`/product/${product.slug}`}
+                        className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white transition duration-300 hover:scale-105 hover:border-fuchsia-400/40"
+                      >
+                        View
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            }
+          )}
         </div>
 
 
@@ -761,7 +975,9 @@ export default function StorefrontPage() {
           <div className="mt-12 flex items-center justify-center gap-3">
             <button
               type="button"
-              onClick={() => goToPage(currentPage - 1)}
+              onClick={() =>
+                goToPage(currentPage - 1)
+              }
               disabled={currentPage === 1}
               className="rounded-xl border border-white/10 bg-white/5 px-5 py-3 font-semibold text-white transition duration-300 hover:scale-105 disabled:opacity-40"
             >
@@ -769,14 +985,18 @@ export default function StorefrontPage() {
             </button>
 
 
+
             <span className="rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 font-bold text-cyan-300">
               Page {currentPage} of {totalPages}
             </span>
 
 
+
             <button
               type="button"
-              onClick={() => goToPage(currentPage + 1)}
+              onClick={() =>
+                goToPage(currentPage + 1)
+              }
               disabled={currentPage >= totalPages}
               className="rounded-xl border border-white/10 bg-white/5 px-5 py-3 font-semibold text-white transition duration-300 hover:scale-105 disabled:opacity-40"
             >
@@ -784,6 +1004,7 @@ export default function StorefrontPage() {
             </button>
           </div>
         )}
+
 
 
         {purchaseNotification && (
@@ -794,6 +1015,7 @@ export default function StorefrontPage() {
               </div>
 
 
+
               <div>
                 <p className="text-sm font-bold text-white">
                   {purchaseNotification.name} from{" "}
@@ -801,9 +1023,12 @@ export default function StorefrontPage() {
                 </p>
 
 
+
                 <p className="text-xs text-slate-400">
-                  just purchased {purchaseNotification.product}
+                  just purchased{" "}
+                  {purchaseNotification.product}
                 </p>
+
 
 
                 <p className="mt-1 text-xs text-emerald-400">
