@@ -1,0 +1,677 @@
+@import "tailwindcss";
+
+
+@theme {
+  --animate-fade-up: fade-up 0.6s ease-out both;
+  --animate-fade-in: fade-in 0.8s ease-out both;
+  --animate-float: float 6s ease-in-out infinite;
+
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-18px);
+    }
+  }
+}
+
+
+body {
+  @apply bg-slate-100 text-slate-900 antialiased;
+}
+
+
+.support-fade-up {
+  opacity: 0;
+  animation: supportFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes supportFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.support-text-glow {
+  animation: supportTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes supportTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+.about-fade-up {
+  opacity: 0;
+  animation: aboutFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes aboutFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.about-text-glow {
+  animation: aboutTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes aboutTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+.store-fade-up {
+  opacity: 0;
+  animation: storeFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes storeFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.store-text-glow {
+  animation: storeTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes storeTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+.product-fade-up {
+  opacity: 0;
+  animation: productFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes productFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.product-text-glow {
+  animation: productTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes productTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+.cart-fade-up {
+  opacity: 0;
+  animation: cartFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes cartFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.cart-text-glow {
+  animation: cartTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes cartTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+.checkout-fade-up {
+  opacity: 0;
+  animation: checkoutFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes checkoutFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.checkout-text-glow {
+  animation: checkoutTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes checkoutTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+.confirm-fade-up {
+  opacity: 0;
+  animation: confirmFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes confirmFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.confirm-text-glow {
+  animation: confirmTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes confirmTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+.confirm-success-pulse {
+  animation: confirmSuccessPulse 2s ease-in-out infinite;
+}
+
+
+@keyframes confirmSuccessPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45);
+  }
+
+
+  50% {
+    box-shadow: 0 0 0 20px rgba(16, 185, 129, 0);
+  }
+}
+
+
+.track-fade-up {
+  opacity: 0;
+  animation: trackFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes trackFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.track-text-glow {
+  animation: trackTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes trackTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+.success-fade-up {
+  opacity: 0;
+  animation: successFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes successFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.success-text-glow {
+  animation: successTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes successTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+.success-pulse {
+  animation: successPulse 2s ease-in-out infinite;
+}
+
+
+@keyframes successPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45);
+  }
+
+
+  50% {
+    box-shadow: 0 0 0 20px rgba(16, 185, 129, 0);
+  }
+}
+
+
+.invoice-fade-up {
+  opacity: 0;
+  animation: invoiceFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes invoiceFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.invoice-text-glow {
+  animation: invoiceTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes invoiceTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+@media print {
+  body {
+    background: white !important;
+  }
+
+
+  .no-print {
+    display: none !important;
+  }
+
+
+  .invoice-fade-up {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+
+
+  .invoice-text-glow {
+    animation: none !important;
+    filter: none !important;
+  }
+}
+
+
+.myorders-fade-up {
+  opacity: 0;
+  animation: myordersFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes myordersFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.myorders-text-glow {
+  animation: myordersTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes myordersTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+@keyframes urgencySlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.purchase-notification {
+  animation: urgencySlideUp 0.5s ease-out;
+}
+
+
+
+
+.analytics-fade-up {
+  opacity: 0;
+  animation: analyticsFadeUp 0.8s ease-out forwards;
+}
+
+
+@keyframes analyticsFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+.analytics-text-glow {
+  animation: analyticsTextGlow 3s ease-in-out infinite alternate;
+}
+
+
+@keyframes analyticsTextGlow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
+  }
+
+
+  to {
+    filter: drop-shadow(0 0 22px rgba(217, 70, 239, 0.55));
+  }
+}
+
+
+.analytics-float {
+  animation: analyticsFloat 6s ease-in-out infinite;
+}
+
+
+@keyframes analyticsFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+
+.analytics-card {
+  position: relative;
+  overflow: hidden;
+}
+
+
+.analytics-card::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+
+.analytics-card:hover::before {
+  opacity: 1;
+  animation: analyticsGlow 1.5s ease infinite;
+}
+
+
+@keyframes analyticsGlow {
+  0% {
+    transform: translate(-20%, -20%);
+  }
+
+
+  50% {
+    transform: translate(20%, 20%);
+  }
+
+
+  100% {
+    transform: translate(-20%, -20%);
+  }
+}
+
+
+.analytics-bar {
+  transform-origin: bottom;
+  animation: analyticsBarGrow 1s ease-out both;
+}
+
+
+@keyframes analyticsBarGrow {
+  from {
+    transform: scaleY(0);
+    opacity: 0.4;
+  }
+
+
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+
+.analytics-revenue-chart {
+  min-height: 320px;
+}
+
+
+.analytics-revenue-bar {
+  min-height: 8px;
+  border-radius: 14px 14px 0 0;
+  background-image: linear-gradient(
+    to top,
+    #2563eb,
+    #a21caf,
+    #ec4899
+  );
+  box-shadow: 0 0 25px rgba(236, 72, 153, 0.35);
+  transition: height 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.analytics-revenue-bar:hover {
+  filter: brightness(1.25);
+  box-shadow: 0 0 35px rgba(236, 72, 153, 0.55);
+}
